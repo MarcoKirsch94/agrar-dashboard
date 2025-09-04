@@ -1,34 +1,171 @@
 /* --- Allgemeines Styling --- */
-body { font-family: Arial, sans-serif; padding: 20px; }
-select, button { margin: 5px; padding: 5px; }
-
-/* Layout für Wetter- und Produktbereich */
-#weather, #product-status { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-.chart, .product-chart { border: 1px solid #ccc; padding: 10px; text-align: center; box-sizing: border-box; }
-.product-chart { width: 220px; }
-
-/* Wetter-Container Layout */
-#weather { display: flex; gap: 10px; }
-#weather .chart { flex: 1; }
-#weather .chart canvas { width: 100% !important; height: 200px; }
-
-/* Wochenwetter Layout */
-#weather-week { display: flex; gap: 10px; margin-top: 10px; }
-#weather-week .day-box { border: 1px solid #ccc; padding: 5px; flex: 1; text-align: center; }
-
-/* --- Custom Dropdown für Produkt-Auswahl --- */
-.custom-select-wrapper { position: relative; width: 220px; display:inline-block; }
-.custom-select { border: 1px solid #ccc; border-radius: 4px; cursor: pointer; background-color:#fff; }
-.select-btn { padding: 5px; }
-.select-list { 
-  position: absolute; top: 100%; left: 0; right: 0; 
-  border: 1px solid #ccc; border-top: none; background-color: #fff; 
-  max-height: 200px; overflow-y: auto; display: none; z-index: 100;
+body {
+  font-family: 'Inter', Arial, sans-serif; /* moderne Schrift */
+  margin: 0;
+  padding: 20px;
+  background: #f9f9f9; /* heller Hintergrund */
+  color: #222;         /* dunkler Text für gute Lesbarkeit */
 }
-.select-list label { display: block; padding: 5px; cursor: pointer; }
-.select-list label:hover { background-color: #f0f0f0; }
 
-#cityInput {
-  padding: 5px;
-  margin: 5px;
+/* Container: zentriert den Inhalt, max. 1200px breit */
+.container {
+  max-width: 1200px;
+  margin: 0 auto; /* auto sorgt für Zentrierung */
+}
+
+/* Überschriften (Titel und Untertitel) */
+h2, h3 {
+  text-align: center;
+  color: #1b4332; /* dunkelgrün als Akzentfarbe */
+  margin-bottom: 16px;
+}
+
+/* Sektionen haben Standard-Abstand nach unten */
+.section {
+  margin-bottom: 24px;
+}
+
+/* --- Wetter-Bereiche (Heute + Morgen) --- */
+#weather {
+  display: grid; /* Grid-System */
+  grid-template-columns: 1fr 1fr; /* zwei gleich große Spalten (50/50) */
+  gap: 16px; /* Abstand zwischen den beiden Boxen */
+}
+
+/* Allgemeine Boxen für Wetter-Charts */
+.chart {
+  border: 1px solid #ddd;
+  border-radius: 8px; /* abgerundete Ecken */
+  padding: 12px;
+  background: #fff; /* weiße Karten */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* leichte Schatten */
+}
+
+.chart canvas {
+  width: 100% !important; /* Chart nimmt volle Breite ein */
+  height: 200px;          /* feste Höhe */
+}
+
+/* --- 7-Tage-Vorhersage --- */
+/* liegt außerhalb des Containers, deshalb breiter */
+#weather-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* genau 7 gleich große Spalten */
+  gap: 16px;
+  margin: 30px auto 40px auto;   /* Abstände: oben 30px, unten 40px */
+  max-width: 1400px;             /* Zeile breiter als Container */
+  width: 100%;
+  padding: 0 10px;               /* etwas Innenabstand links/rechts */
+}
+
+#weather-week .day-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: 0.85rem;     /* Schrift leicht kleiner */
+  word-wrap: break-word;  /* lange Wörter umbrechen */
+}
+
+/* --- Toolbar (Such- und Filterleiste) --- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;      /* bei kleinen Screens umbrechen */
+  gap: 16px;            /* Abstand zwischen Feldern */
+  align-items: flex-end;
+  justify-content: center; /* Toolbar zentriert */
+}
+
+.field {
+  display: flex;
+  flex-direction: column; /* Label über Select/Button */
+}
+
+label {
+  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1b4332; /* Akzentfarbe */
+}
+
+/* Dropdowns (Stadt, Modus, Button für Produkte) */
+select, .select-btn {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* --- Custom Dropdown für Produkte --- */
+.custom-select-wrapper {
+  position: relative;
+  width: 220px; /* feste Breite */
+}
+
+/* Versteckte Liste, die erst beim Klick sichtbar wird */
+.select-list {
+  position: absolute;
+  top: 100%;  /* direkt unter Button */
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: #fff;
+  max-height: 220px; /* falls viele Produkte -> Scrollbar */
+  overflow-y: auto;
+  display: none;     /* erst per JS auf block */
+  z-index: 100;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Einträge in der Dropdown-Liste */
+.select-list label {
+  display: block;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.select-list label:hover {
+  background-color: #f0f0f0;
+}
+
+/* --- Button Styling --- */
+.btn-primary {
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: none;
+  background: #1b4332; /* dunkelgrün */
+  color: #fff;         /* weiße Schrift */
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease; /* sanfter Hover-Effekt */
+}
+
+.btn-primary:hover {
+  background: #2d6a4f; /* etwas helleres Grün beim Hover */
+}
+
+/* --- Produkt-Status Bereich (unten) --- */
+#product-status {
+  display: flex;
+  flex-wrap: wrap;   /* Produkte umbrechen wenn nötig */
+  gap: 16px;
+  margin-top: 20px;
+  justify-content: center; /* zentriert */
+}
+
+.product-chart {
+  flex: 1 1 220px;      /* mindestens 220px breit */
+  max-width: 300px;     /* maximal 300px */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  text-align: center;
 }

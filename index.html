@@ -4,100 +4,105 @@
   <meta charset="UTF-8" />
   <title>Agrar-Dashboard Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Chart.js -->
+
+  <!-- Google-Webfont für modernes Design -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS-Styling (liegt in style.css) -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js Bibliothek für die Diagramme -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    /* --- Allgemeines Styling --- */
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    select, button { margin: 5px; padding: 5px; }
-
-    /* Layout für Wetter- und Produktbereich */
-    #weather, #product-status { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-    .chart, .product-chart { border: 1px solid #ccc; padding: 10px; text-align: center; box-sizing: border-box; }
-    .product-chart { width: 220px; }
-
-    /* Wetter-Container Layout */
-    #weather { display: flex; gap: 10px; }
-    #weather .chart { flex: 1; }
-    #weather .chart canvas { width: 100% !important; height: 200px; }
-
-    /* Wochenwetter Layout */
-    #weather-week { display: flex; gap: 10px; margin-top: 10px; }
-    #weather-week .day-box { border: 1px solid #ccc; padding: 5px; flex: 1; text-align: center; }
-
-    /* --- Custom Dropdown für Produkt-Auswahl (einheitlicher Look) --- */
-    .custom-select-wrapper { position: relative; width: 220px; display:inline-block; }
-    .custom-select { position: relative; border: none; background: transparent; padding: 0; cursor: pointer; }
-    .select-btn { padding: 5px; border: 1px solid #ccc; border-radius: 4px; background-color:#fff; }
-    .select-list {
-      position: absolute; top: 100%; left: 0; right: 0;
-      border: 1px solid #ccc; border-top: none; background-color: #fff;
-      max-height: 220px; overflow-y: auto; display: none; z-index: 100;
-    }
-    .select-list label { display: block; padding: 6px 8px; cursor: pointer; }
-    .select-list label:hover { background-color: #f0f0f0; }
-
-    /* Button */
-    .btn-primary { padding: 6px 10px; border-radius: 4px; border: 1px solid #888; background:#eee; cursor:pointer; }
-    .btn-primary:hover { background:#e3e3e3; }
-  </style>
 </head>
 <body>
+  <!-- Container sorgt für maximale Breite und zentriertes Layout -->
+  <div class="container">
+    <!-- Haupttitel -->
+    <h2>Agrar-Dashboard Demo</h2>
 
-  <h2>Agrar-Dashboard Demo</h2>
-
-  <!-- Wetterbereich -->
-  <h3>Wetter</h3>
-  <div id="weather">
-    <div class="chart" id="today">
-      <div class="weather-info" id="todayInfo"></div>
-      <canvas id="todayChart"></canvas>
-    </div>
-    <div class="chart" id="tomorrow">
-      <div class="weather-info" id="tomorrowInfo"></div>
-      <canvas id="tomorrowChart"></canvas>
-    </div>
-  </div>
-  <div id="weather-week"></div>
-
-  <!-- Stadt-Auswahl (ohne Suche, feste Top-10) -->
-  <label for="citySelect">Stadt:</label>
-  <select id="citySelect">
-    <option>Berlin</option>
-    <option>Hamburg</option>
-    <option>München</option>
-    <option>Köln</option>
-    <option>Frankfurt am Main</option>
-    <option>Stuttgart</option>
-    <option>Düsseldorf</option>
-    <option>Leipzig</option>
-    <option>Dortmund</option>
-    <option>Essen</option>
-  </select>
-
-  <!-- Modus-Auswahl (Alle, Mehrere, Einzeln) -->
-  <label for="modeSelect">Auswahlmodus:</label>
-  <select id="modeSelect">
-    <option value="all">Alle</option>
-    <option value="multiple">Mehrere</option>
-    <option value="single">Einzeln</option>
-  </select>
-
-  <!-- Produkt-Auswahl (Custom Dropdown) -->
-  <label>Produkt:</label>
-  <div class="custom-select-wrapper">
-    <div id="productDropdown" class="custom-select">
-      <div id="productDropdownBtn" class="select-btn">Wähle Produkt(e)</div>
-      <div id="productDropdownList" class="select-list"></div>
+    <!-- Wetterbereich Heute & Morgen -->
+    <h3>Wetter</h3>
+    <div id="weather" class="section">
+      <!-- Box für das Wetter von heute -->
+      <div class="chart" id="today">
+        <!-- Textinfos (Temperatur, Regen, Luftfeuchte, etc.) -->
+        <div class="weather-info" id="todayInfo"></div>
+        <!-- Chart (Diagramm) für heute -->
+        <canvas id="todayChart"></canvas>
+      </div>
+      <!-- Box für das Wetter von morgen -->
+      <div class="chart" id="tomorrow">
+        <div class="weather-info" id="tomorrowInfo"></div>
+        <canvas id="tomorrowChart"></canvas>
+      </div>
     </div>
   </div>
 
-  <button id="loadBtn" class="btn-primary">Laden</button>
+  <!-- 7-Tage-Vorhersage wird bewusst außerhalb des Containers dargestellt,
+       damit die 7 Boxen breiter werden können und zentriert angezeigt werden -->
+  <div id="weather-week" class="section"></div>
 
-  <h3>Produkt-Status</h3>
-  <div id="product-status"></div>
+  <!-- Neuer Container für Toolbar (Filter) und Produkte -->
+  <div class="container">
+    <!-- Toolbar: Stadtwahl, Moduswahl, Produktauswahl, Button -->
+    <div class="toolbar section">
+      <!-- Stadt-Auswahl -->
+      <div class="field">
+        <label for="citySelect">Stadt</label>
+        <select id="citySelect">
+          <!-- Feste Liste mit 10 größten deutschen Städten -->
+          <option>Berlin</option>
+          <option>Hamburg</option>
+          <option>München</option>
+          <option>Köln</option>
+          <option>Frankfurt am Main</option>
+          <option>Stuttgart</option>
+          <option>Düsseldorf</option>
+          <option>Leipzig</option>
+          <option>Dortmund</option>
+          <option>Essen</option>
+        </select>
+      </div>
 
-  <!-- App-Logik -->
+      <!-- Auswahlmodus: alle / mehrere / einzelnes Produkt -->
+      <div class="field">
+        <label for="modeSelect">Auswahlmodus</label>
+        <select id="modeSelect">
+          <option value="all">Alle</option>
+          <option value="multiple">Mehrere</option>
+          <option value="single">Einzeln</option>
+        </select>
+      </div>
+
+      <!-- Produktauswahl (benutzerdefiniertes Dropdown) -->
+      <div class="field">
+        <label>Produkt(e)</label>
+        <div class="custom-select-wrapper">
+          <div id="productDropdown" class="custom-select">
+            <!-- Sichtbarer Button (zeigt Auswahltext an) -->
+            <div id="productDropdownBtn" class="select-btn">Wähle Produkt(e)</div>
+            <!-- Versteckte Liste mit Checkboxen/Optionen -->
+            <div id="productDropdownList" class="select-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button zum Laden der Daten -->
+      <div class="field">
+        <!-- Leeres Label für saubere Ausrichtung -->
+        <label>&nbsp;</label>
+        <button id="loadBtn" class="btn-primary">Laden</button>
+      </div>
+    </div>
+
+    <!-- Bereich für Produktstatus (wird per JS befüllt) -->
+    <h3>Produkt-Status</h3>
+    <div id="product-status"></div>
+  </div>
+
+  <!-- App-Logik: hier wird das JavaScript geladen -->
   <script src="./app.js" defer></script>
 </body>
 </html>
