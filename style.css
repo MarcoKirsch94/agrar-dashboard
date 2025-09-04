@@ -1,0 +1,34 @@
+/* --- Allgemeines Styling --- */
+body { font-family: Arial, sans-serif; padding: 20px; }
+select, button { margin: 5px; padding: 5px; }
+
+/* Layout für Wetter- und Produktbereich */
+#weather, #product-status { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+.chart, .product-chart { border: 1px solid #ccc; padding: 10px; text-align: center; box-sizing: border-box; }
+.product-chart { width: 220px; }
+
+/* Wetter-Container Layout */
+#weather { display: flex; gap: 10px; }
+#weather .chart { flex: 1; }
+#weather .chart canvas { width: 100% !important; height: 200px; }
+
+/* Wochenwetter Layout */
+#weather-week { display: flex; gap: 10px; margin-top: 10px; }
+#weather-week .day-box { border: 1px solid #ccc; padding: 5px; flex: 1; text-align: center; }
+
+/* --- Custom Dropdown für Produkt-Auswahl --- */
+.custom-select-wrapper { position: relative; width: 220px; display:inline-block; }
+.custom-select { border: 1px solid #ccc; border-radius: 4px; cursor: pointer; background-color:#fff; }
+.select-btn { padding: 5px; }
+.select-list { 
+  position: absolute; top: 100%; left: 0; right: 0; 
+  border: 1px solid #ccc; border-top: none; background-color: #fff; 
+  max-height: 200px; overflow-y: auto; display: none; z-index: 100;
+}
+.select-list label { display: block; padding: 5px; cursor: pointer; }
+.select-list label:hover { background-color: #f0f0f0; }
+
+#cityInput {
+  padding: 5px;
+  margin: 5px;
+}
